@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <title>문경 사라앤숲</title>
+
+    <link rel="stylesheet" href="styles/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" type="text/css" href="styles/common.css">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="styles/popup_black.css">
+
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="js/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script type="text/javascript">
+        function setCookie(name, value, expirehours) {
+            var todayDate = new Date();
+            todayDate.setHours(todayDate.getHours() + expirehours);
+            document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+        }
+
+        function closeWin(id, checkbox) {
+            if (checkbox.checked) {
+                setCookie(id, "done", 1);
+            }
+            document.getElementById(id).style.display = "none";
+        }
+    </script>
+  <!-- Open Graph Meta Tags for Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="문경 사라앤숲" />
+  <meta property="og:description" content="문경 사라앤숲은 자연 속 하루를 완성하는 공간으로, 숲 산책부터 바비큐, 고요한 밤을 느끼며 온전한 휴식을 누릴 수 있는 곳입니다." />
+  <meta property="og:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/04/17/pmSAvOjVFGMW.jpg" />
+  <meta property="og:url" content="https://saraandforest.kr" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="문경 사라앤숲" />
+  <meta name="twitter:description" content="문경 사라앤숲은 자연 속 하루를 완성하는 공간으로, 숲 산책부터 바비큐, 고요한 밤을 느끼며 온전한 휴식을 누릴 수 있는 곳입니다." />
+  <meta name="twitter:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/04/17/pmSAvOjVFGMW.jpg" />
+  <meta name="naver-site-verification" content="6a9d2908b2f41186016fca73d78f358b4fee2d5e" />
+  <meta name="google-site-verification" content="e3bufN1ucnFOYMRv_VFUItp3UQ22kjEkotrhCsB_G4I" />
+</head>
+<body>
+    <script src="js/header-footer-loader.js"></script>
+    <div id="sh_wrapper">
+    <main id="sh_container">
+    
+            <!-- main_banner [s] -->
+            <article>
+                <div id="main_banner">
+                    <div class="swiper-container main_slide">
+                        <!-- MAPPER: nearbyAttractions.sections[0].hero.images[isSelected] → 슬라이드 동적 생성 -->
+                        <div class="swiper-wrapper"></div>
+                    </div>
+                </div>
+            </article>
+            <!-- main_banner [e] -->
+
+            <!-- sh_content [s] -->
+            <div id="sh_content">
+                <!-- nearby attractions [s] -->
+                <div id="facility1004">
+                    <div class="tit">
+                        <span class="deco"></span>
+                        <!-- MAPPER: nearbyAttractions.hero.title (1순위) / 값 없으면 기본값 유지 -->
+                        <h1 data-nearby-title><span>NEARBY</span> ATTRACTIONS</h1>
+                    </div>
+
+                    <div class="cont">
+                        <div class="inner" data-aos="fade-up">
+                            <!-- MAPPER: nearbyAttractions.about[] → 여행지 리스트 (li: 첫 선택 이미지 + dt 제목 + dd 설명) -->
+                            <ul data-nearby-items></ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- nearby attractions [e] -->
+            </div>
+            <!-- sh_content [e] -->
+
+    </main>
+    </div>
+
+    <script src="js/preview-handler.js"></script>
+    <script src="js/image-helpers.js"></script>
+    <script src="js/data-mapper/core/base-mapper.js"></script>
+    <script src="js/data-mapper/pages/nearby-attractions-mapper.js"></script>
+    <script src="js/data-mapper/pages/header-footer-mapper.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/pages/nearby-attractions.js"></script>
+</body>
+</html>
