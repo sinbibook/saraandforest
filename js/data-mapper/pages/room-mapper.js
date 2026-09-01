@@ -275,7 +275,6 @@
 
     ul.innerHTML = '';
 
-    // layoutMap(미리보기)이 enabled면 "미리보기" 항목 추가 (room 페이지이므로 on 아님)
     var pages = this.getPages();
     var layoutEnabled = pages.layoutMap && pages.layoutMap.sections &&
       pages.layoutMap.sections[0] && pages.layoutMap.sections[0].enabled !== false;
@@ -288,28 +287,23 @@
       ul.appendChild(pli);
     }
 
+    var self = this;
     var currentId = currentRt && currentRt.id;
-    roomtypes.forEach(function (rt) {
-      if (!rt.name || !rt.name.trim()) return;
+    var activeRoomtypes = roomtypes.filter(function (rt) {
+      if (!(rt && rt.name && rt.name.trim())) return false;
+      var matched = self.getMatchedRoom(rt);
+      return !(matched && matched.status === 'inactive');
+    });
+    var roomItems = this.getRoomMenuItems(activeRoomtypes, function (rt) { return (rt && rt.name) || ''; });
+    roomItems.forEach(function (item) {
+      var roomLabel = self.getRoomMenuLabel(item);
       var li = document.createElement('li');
       var link = document.createElement('a');
-      link.href = 'room.html?id=' + rt.id;
-      link.textContent = rt.name;
-
-      if (rt.id === currentId) {
-        li.className = 'on';
-      }
-
+      link.href = self.getRoomMenuLink(item, 'id');
+      link.textContent = roomLabel;
+      if (self.isRoomMenuItemActive(item, currentId)) li.className = 'on';
       li.appendChild(link);
       ul.appendChild(li);
-    });
-  };
-
-  // MAPPER: property.name → 숙소명 표기 요소들
-  RoomMapper.prototype.mapPropertyNames = function () {
-    var name = this.getPropertyName();
-    document.querySelectorAll('[data-property-name]').forEach(function (el) {
-      el.textContent = name;
     });
   };
 
