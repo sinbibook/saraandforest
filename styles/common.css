@@ -192,6 +192,14 @@ background-image: url(../images/icon_down.png);background-repeat: no-repeat; bac
 #sh_ft .right .cs{padding-bottom:40px;color: rgba(255, 255, 255, 0.75);}
 #sh_ft .right .cs p b{display:inline-block;padding-right:25px;font-size:15px;font-weight:600}
 #sh_ft .right .cs p+p{margin-top:10px}
+/* 전화번호가 여러 개일 때 라벨 옆 첫 번호 아래로 줄바꿈해 노출.
+   #sh_ft 는 고정 높이(380px)라 늘어난 줄만큼 상단 여백을 줄인다.
+   .has-multi-phone 은 번호가 2개 이상일 때만 붙으므로 1개일 때 레이아웃은 그대로 유지된다. */
+#sh_ft.has-multi-phone .left{padding-top:75px}
+#sh_ft.has-multi-phone .right{padding-top:75px}
+#sh_ft .right .cs p [data-footer-phone]{display:inline-block;vertical-align:top}
+#sh_ft .right .cs p [data-footer-phone] .phoneItem{display:block}
+#sh_ft .right .cs p [data-footer-phone] .phoneItem+.phoneItem{margin-top:4px}
 #sh_ft .right .add{font-size:14px;line-height:1.8;word-break:keep-all}
 #sh_ft .right .admin{display:flex;align-items:center;gap:30px;height:105px;padding-left:60px;border-top:1px solid rgba(255, 255, 255, 0.1)}
 #sh_ft .right .admin a{font-size:15px;font-weight:300;color:rgba(255, 255, 255, 0.2);font-family:var(--font-en-main)}

@@ -144,6 +144,41 @@
     return img && img.url ? img.url : null;
   };
 
+  BaseDataMapper.prototype.getRoomGroupName = function (roomtype) {
+    return String((roomtype && (roomtype.groupname || roomtype.groupName || roomtype.group_name)) || '').trim();
+  };
+  BaseDataMapper.prototype.hasRoomGroups = function (roomtypes) {
+    return (roomtypes || []).some(function (rt) { return !!String((rt && (rt.groupname || rt.groupName || rt.group_name)) || '').trim(); });
+  };
+  BaseDataMapper.prototype.getRoomMenuItems = function (roomtypes, resolveName) {
+    var self = this;
+    var list = roomtypes || [];
+    if (!this.hasRoomGroups(list)) {
+      return list.map(function (rt) { return { label: resolveName ? resolveName(rt) : (rt && rt.name) || '', roomtype: rt, roomtypes: [rt] }; });
+    }
+    var seen = {};
+    var items = [];
+    list.forEach(function (rt) {
+      var groupName = self.getRoomGroupName(rt);
+      var label = groupName || (resolveName ? resolveName(rt) : (rt && rt.name) || '');
+      if (!String(label).trim()) return;
+      var key = groupName ? 'group:' + groupName : 'room:' + rt.id;
+      if (!seen[key]) { seen[key] = { label: label, groupName: groupName, roomtype: rt, roomtypes: [rt] }; items.push(seen[key]); }
+      else { seen[key].roomtypes.push(rt); }
+    });
+    return items;
+  };
+  BaseDataMapper.prototype.getRoomMenuLabel = function (item) { return (item && item.label) || ''; };
+  BaseDataMapper.prototype.getRoomMenuRoomtype = function (item) { return (item && item.roomtype) || item; };
+  BaseDataMapper.prototype.getRoomMenuLink = function (item, paramName) {
+    var roomtype = this.getRoomMenuRoomtype(item);
+    return 'room.html?' + (paramName || 'room_id') + '=' + encodeURIComponent(roomtype && roomtype.id);
+  };
+  BaseDataMapper.prototype.isRoomMenuItemActive = function (item, currentId) {
+    if (!item || !currentId) return false;
+    return (item.roomtypes || []).some(function (rt) { return String(rt && rt.id) === String(currentId); });
+  };
+
   BaseDataMapper.prototype.toPhoneList = function (value) {
     var fallbackPhone = '1833-9306';
     var list = [];
