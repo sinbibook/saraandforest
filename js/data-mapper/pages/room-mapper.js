@@ -38,7 +38,9 @@
     this.mapAmenities();
     this.mapRoomPreview();
     this.mapRoomNavigation();
-    this.mapPropertyNames();
+    // mapPropertyNames() 는 호출하지 않는다 — RoomMapper 에도 BaseDataMapper 에도
+    // 정의가 없어 여기서 예외가 나고, 그 뒤 updateMetaTags() 가 실행되지 않았다.
+    // room.html 에는 [data-property-*] 슬롯이 하나도 없어 채울 대상도 없다.
     this.updateMetaTags();
   };
 
@@ -295,6 +297,20 @@
       return !(matched && matched.status === 'inactive');
     });
     var roomItems = this.getRoomMenuItems(activeRoomtypes, function (rt) { return (rt && rt.name) || ''; });
+    // 그룹 안이면 그 그룹의 객실만 펼친다.
+    // 헤더/미리보기 메뉴는 그룹명 하나로 접히고 클릭 시 그룹의 첫 객실로 들어가는데,
+    // 이 탭까지 접혀 있으면 2번째 객실부터는 UI 로 도달할 방법이 없다.
+    // 멤버가 1실인 그룹은 펼치지 않는다(항목이 하나뿐이라 의미가 없다).
+    var activeGroup = null;
+    roomItems.forEach(function (it) {
+      var members = (it && it.roomtypes) || [];
+      if (members.length > 1 && self.isRoomMenuItemActive(it, currentId)) activeGroup = it;
+    });
+    if (activeGroup) {
+      roomItems = activeGroup.roomtypes.map(function (rt) {
+        return { label: (rt && rt.name) || '', roomtype: rt, roomtypes: [rt] };
+      });
+    }
     roomItems.forEach(function (item) {
       var roomLabel = self.getRoomMenuLabel(item);
       var li = document.createElement('li');
