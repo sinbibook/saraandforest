@@ -16,8 +16,21 @@
     this.mapFacilityMenu();
     this.mapFooterMenu();
     this.mapTravelMenu();
+    this.mapLayoutMapMenu();
     this.mapHeaderNavHover();
     this.mapFooter();
+  };
+
+  // MAPPER: layoutMap.enabled === false 이면 ROOMS 서브메뉴의 `미리보기` 숨김
+  // (헤더 PC + 모바일 aside). 기존에는 mapFooterMenu 가 ROOMS 대메뉴의 href 만
+  // 바꾸고 서브메뉴 항목은 그대로 둬서, 꺼진 페이지에 눌러 들어갈 수 있었다.
+  HeaderFooterMapper.prototype.mapLayoutMapMenu = function () {
+    var pages = this.getPages();
+    var lm = pages.layoutMap && pages.layoutMap.sections && pages.layoutMap.sections[0];
+    var hide = !!(lm && lm.enabled === false);
+    document.querySelectorAll('[data-layout-map-menu]').forEach(function (el) {
+      el.style.display = hide ? 'none' : '';
+    });
   };
 
   // MAPPER: nearbyAttractions.enabled === false 이면 TRAVEL/주변여행지 메뉴 숨김 (헤더 PC·모바일 + 푸터)
